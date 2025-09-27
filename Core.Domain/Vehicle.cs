@@ -19,6 +19,7 @@ public class Vehicle
         _vehicleBrandModel = vehicleBrandModel;
         _vehicleType = vehicleType;
         _licencePlate = licencePlate;
+        
     }
 
     //ToDo: TotalDriven bouwen. Waarschijnlijk een helper voor aanmaken!
