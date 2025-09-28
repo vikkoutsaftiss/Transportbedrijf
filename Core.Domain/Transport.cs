@@ -57,11 +57,33 @@
         //            _transportType = TransportType.Passenger;
         //        }
 
-        public bool TryStart()
+        public bool TryStart(Transport transport)
         {
-            if ((_passengerCount != null && _transportType == TransportType.Passenger) || (_transportWeight != null && _transportType == TransportType.Cargo))
+            if ((PassengerCount != null && TransportType == TransportType.Passenger) || (TransportWeight != null && TransportType == TransportType.Cargo))
             {
-                return true;
+                if (TransportType == TransportType.Cargo)
+                {
+                    if (transport.Vehicle.MaxLoad >= TransportWeight)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                if (TransportType == TransportType.Passenger)
+                {
+                    if (transport.Vehicle.MaxPersons >= PassengerCount)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                
             }
             return false;
         }
