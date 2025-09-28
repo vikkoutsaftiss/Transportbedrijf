@@ -22,24 +22,25 @@
         public int? PassengerCount { get { return _passengerCount; } }
 
 
-        public Transport(string pickUpAddress, string destinationAddress, DateTime dateTime, Vehicle vehicle, Driver driver, int? transportWeight = null, int? passengerCount = null)
+        public Transport(string pickUpAddress, string destinationAddress, DateTime dateTime, Vehicle vehicle, Driver driver, TransportType transportType, int? transportWeight = null, int? passengerCount = null)
         {
             _pickUpAddress = pickUpAddress;
             _destinationAddress = destinationAddress;
             _transportDateTime = dateTime;
             _vehicle = vehicle;
             _driver = driver;
+            _transportType = transportType;
 
             if (transportWeight.HasValue)
             {
                 _transportWeight = transportWeight;
-                _transportType = TransportType.Cargo;
             }
             else if (passengerCount.HasValue)
             {
                 _passengerCount = passengerCount;
-                _transportType = TransportType.Passenger;
             }
+
+            //ToDo: toevoegen aan list.
 
 
         }
@@ -55,5 +56,14 @@
         //            _transportWeight = null;
         //            _transportType = TransportType.Passenger;
         //        }
+
+        public bool TryStart()
+        {
+            if ((_passengerCount != null && _transportType == TransportType.Passenger) || (_transportWeight != null && _transportType == TransportType.Cargo))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
