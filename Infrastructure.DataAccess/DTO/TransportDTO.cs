@@ -1,6 +1,4 @@
-﻿using Core.Domain;
-
-namespace Infrastructure.DataAccess.DTO
+﻿namespace Infrastructure.DataAccess.DTO
 {
     public class TransportDTO
     {
@@ -8,8 +6,8 @@ namespace Infrastructure.DataAccess.DTO
         public string DestinationAddress { get; set; }
         public DateTime TransportDateTime {  get; set; }
         public VehicleDTO Vehicle { get; set; }
-        public Driver Driver { get; set; }
-        public TransportType TransportType { get; set; }
+        public string Driver { get; set; } //object driver aangepast naar string Driver
+        public string TransportType { get; set; } //object TransportType aangepast naar string TransportType
         public int? TransportWeight { get; set; }
         public int? PassengerCount { get; set; }      
     }

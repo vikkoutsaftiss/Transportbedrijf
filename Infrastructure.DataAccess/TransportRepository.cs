@@ -7,7 +7,7 @@ namespace Infrastructure.DataAccess
         public List<TransportDTO> GetTransports()
         {
             List<TransportDTO> transports = new List<TransportDTO>();
-
+            return transports;
         }
     }
 }
