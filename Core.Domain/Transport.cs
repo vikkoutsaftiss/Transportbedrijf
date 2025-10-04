@@ -57,13 +57,13 @@
         //            _transportType = TransportType.Passenger;
         //        }
 
-        public bool TryStart(Transport transport)
+        public bool TryStart()
         {
             if ((PassengerCount != null && TransportType == TransportType.Passenger) || (TransportWeight != null && TransportType == TransportType.Cargo))
             {
                 if (TransportType == TransportType.Cargo)
                 {
-                    if (transport.Vehicle.MaxLoad >= TransportWeight)
+                    if (Vehicle.MaxLoad >= TransportWeight)
                     {
                         return true;
                     }
@@ -74,7 +74,7 @@
                 }
                 if (TransportType == TransportType.Passenger)
                 {
-                    if (transport.Vehicle.MaxPersons >= PassengerCount)
+                    if (Vehicle.MaxPersons >= PassengerCount)
                     {
                         return true;
                     }
