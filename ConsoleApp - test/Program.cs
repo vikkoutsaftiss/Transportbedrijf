@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Core.Domain;
+using Infrastructure.DataAccess;
 using System.Reflection.Metadata.Ecma335;
 
 TransportCompany transportCompany = new TransportCompany("TransporT");
@@ -8,8 +9,6 @@ TransportCompany transportCompany = new TransportCompany("TransporT");
 Driver driver1 = new Driver("Henk");
 
 Driver driver2 = new Driver("Johan");
-
-
 
 Transport transport1 = new Transport(
     "De Streep 6, Diessen",

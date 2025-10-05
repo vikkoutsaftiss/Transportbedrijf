@@ -3,6 +3,7 @@ namespace Core.Domain;
 
 public class Vehicle
 {
+    private int _Id;
     private string _vehicleBrandModel;
     private VehicleType _vehicleType;
     private string _licencePlate;
@@ -10,6 +11,7 @@ public class Vehicle
     private int? _maxLoad;
     private int? _maxPersons;
 
+    public int Id { get { return _Id; } }
     public string VehicleBrandModel { get { return _vehicleBrandModel; } }
     public VehicleType VehicleType { get { return _vehicleType; } }
     public string LicencePlate { get { return _licencePlate; } }
