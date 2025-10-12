@@ -4,46 +4,80 @@
     ViewData["Title"] = "Add Vehicle";
 }
 
-<h3>Add Vehicle</h3>
+<h1>Voertuigen toevoegen</h1>
 
-<form method="post">
+<h2>Vrachtwagens:</h2>
+
+<form method="post" asp-page-handler="AddTruck">
 
     <div asp-validation-summary="All" class="text-black"></div>
 
     <div class="form-group">
-        <label asp-for="Vehicle.vehicleBrandModel" class="control-label"></label>
-        <input asp-for="Vehicle.vehicleBrandModel" class="form-control" />
-        <span asp-validation-for="Vehicle.vehicleBrandModel" class="text-danger"></span>
+        <label asp-for="Truck.VehicleBrandModel" class="control-label"></label>
+        <input asp-for="Truck.VehicleBrandModel" class="form-control" />
+        <span asp-validation-for="Truck.VehicleBrandModel" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Vehicle.VehicleType" class="text-black"></label>
+        <label asp-for="Truck.VehicleType" class="text-black"></label>
 
-        <select id="vehicleTypeDropdown" asp-for="Vehicle.VehicleType" class="form-control">
-            <option value="">-- Selecteer Type --</option>
-            <option value="0">Truck</option>
+        <select id="vehicleTypeDropdown" asp-for="Truck.VehicleType" class="form-control">
+               <option value="0">Truck</option>
+        </select>
+
+        <span asp-validation-for="Truck.VehicleType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Truck.LicencePlate" class="control-label"></label>
+        <input asp-for="Truck.LicencePlate" class="form-control" />
+        <span asp-validation-for="Truck.LicencePlate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Truck.MaxLoad" class="control-label"></label>
+        <input asp-for="Truck.MaxLoad" class="form-control" />
+        <span asp-validation-for="Truck.MaxLoad" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Toevoegen</button>
+    <a asp-page="/Vehicles/Index" class="btn btn-secondary">Annuleren</a>
+
+
+</form>
+
+<h2>Taxi's:</h2>
+
+<form method="post" asp-page-handler="AddTaxi">
+
+    <div asp-validation-summary="All" class="text-black"></div>
+
+    <div class="form-group">
+        <label asp-for="Taxi.VehicleBrandModel" class="control-label"></label>
+        <input asp-for="Taxi.VehicleBrandModel" class="form-control" />
+        <span asp-validation-for="Taxi.VehicleBrandModel" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Taxi.VehicleType" class="text-black"></label>
+
+        <select id="vehicleTypeDropdown" asp-for="Taxi.VehicleType" class="form-control">
             <option value="1">Taxi</option>
         </select>
 
-        <span asp-validation-for="Vehicle.VehicleType" class="text-danger"></span>
+        <span asp-validation-for="Taxi.VehicleType" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Vehicle.LicencePlate" class="control-label"></label>
-        <input asp-for="Vehicle.LicencePlate" class="form-control" />
-        <span asp-validation-for="Vehicle.LicencePlate" class="text-danger"></span>
+        <label asp-for="Taxi.LicencePlate" class="control-label"></label>
+        <input asp-for="Taxi.LicencePlate" class="form-control" />
+        <span asp-validation-for="Taxi.LicencePlate" class="text-danger"></span>
     </div>
 
-    <div id="maxLoadField" class="form-group" style="display: none;">
-        <label asp-for="Vehicle.MaxLoad" class="control-label"></label>
-        <input asp-for="Vehicle.MaxLoad" class="form-control" />
-        <span asp-validation-for="Vehicle.MaxLoad" class="text-danger"></span>
-    </div>
-
-    <div id="maxPersonsField" class="form-group" style="display: none;">
-        <label asp-for="Vehicle.MaxPersons" class="control-label"></label>
-        <input asp-for="Vehicle.MaxPersons" class="form-control" />
-        <span asp-validation-for="Vehicle.MaxPersons" class="text-danger"></span>
+    <div class="form-group">
+        <label asp-for="Taxi.MaxPersons" class="control-label"></label>
+        <input asp-for="Taxi.MaxPersons" class="form-control" />
+        <span asp-validation-for="Taxi.MaxPersons" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Toevoegen</button>
@@ -55,7 +89,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
-    <script>
+    @* <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 1. Elementen selecteren
             const dropdown = document.getElementById('vehicleTypeDropdown');
@@ -86,6 +120,6 @@
             // (Belangrijk voor initieel gedrag, bijvoorbeeld als er een fout was bij POST)
             updateFieldsVisibility();
         });
-    </script>
+    </script> *@
 }
 

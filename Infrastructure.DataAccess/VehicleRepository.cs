@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Infrastructure.DataAccess
 {
     public class VehicleRepository
@@ -23,20 +24,39 @@ namespace Infrastructure.DataAccess
                 {
                     while (reader.Read())
                     {
-                        VehicleDTO vehicle = new VehicleDTO();
+                        int typeId = Convert.ToInt32(reader["type"]);
+
+                        VehicleDTO vehicle;
+
+                        if (typeId == 1)
                         {
-                            vehicle.Id = Convert.ToInt32(reader["vehicleid"]);
-                            vehicle.VehicleBrandModel = reader["vehiclebrandmodel"].ToString();
-                            vehicle.VehicleType = Convert.ToInt32(reader["type"]);
-                            vehicle.TotalDriven = Convert.ToInt32(reader["totaldriven"]);
-                            vehicle.MaxLoad = reader.IsDBNull(reader.GetOrdinal("maxload"))
-                                              ? (int?)null
-                                              : reader.GetInt32(reader.GetOrdinal("maxload"));
-                            vehicle.MaxPersons = reader.IsDBNull(reader.GetOrdinal("maxpersons"))
-                                              ? (int?)null
-                                              : reader.GetInt32(reader.GetOrdinal("maxpersons"));
-                            vehicles.Add(vehicle);
+                            TaxiDTO taxi = new TaxiDTO();
+                            taxi.MaxPersons = Convert.ToInt32(reader["maxpersons"]);
+
+                            vehicle = taxi;
                         }
+                        else if (typeId == 0)
+                        {
+                            TruckDTO truck = new TruckDTO();
+                            truck.MaxLoad = Convert.ToInt32(reader["maxload"]);
+
+                            vehicle = truck;
+                        }
+                        else
+                        {
+                            vehicle = new VehicleDTO();
+                        }
+
+                        vehicle.Id = Convert.ToInt32(reader["vehicleid"]);
+                        vehicle.VehicleBrandModel = reader["vehiclebrandmodel"].ToString();
+                        vehicle.VehicleType = Convert.ToInt32(reader["type"]);
+                        vehicle.TotalDriven = Convert.ToInt32(reader["totaldriven"]);
+                        vehicle.LicencePlate = reader["licenceplate"].ToString();
+
+                        vehicles.Add(vehicle);
+
+
+
                     }
                 }
                 sqlConnection.Close();
@@ -46,20 +66,65 @@ namespace Infrastructure.DataAccess
 
         public void AddVehicle(VehicleDTO vehicleDTO)
         {
-            string query = "INSERT INTO vehicle (vehicleBrandModel, type, TotalDriven, maxLoad, maxPersons) VALUES (@vehicleBrandModel, @type, @TotalDriven, @maxLoad, @maxPersons)";
+            string query = "INSERT INTO vehicle (vehicleBrandModel, type, TotalDriven, maxLoad, maxPersons, licencePlate) VALUES (@vehicleBrandModel, @type, @TotalDriven, @maxLoad, @maxPersons, @licencePlate)";
             sqlConnection.Open();
             using (MySqlCommand cmd = new MySqlCommand(query, sqlConnection))
             {
                 cmd.Parameters.AddWithValue("@vehicleBrandModel", vehicleDTO.VehicleBrandModel);
                 cmd.Parameters.AddWithValue("@type", vehicleDTO.VehicleType);
                 cmd.Parameters.AddWithValue("@TotalDriven", vehicleDTO.TotalDriven);
-                cmd.Parameters.AddWithValue("@maxLoad", vehicleDTO.MaxLoad);
-                cmd.Parameters.AddWithValue("@maxPersons", vehicleDTO.MaxPersons);
+                cmd.Parameters.AddWithValue("@licencePlate", vehicleDTO.LicencePlate);
+
+                if (vehicleDTO is TruckDTO truck)
+                {
+                    cmd.Parameters.AddWithValue("@maxLoad", truck.MaxLoad);
+                    cmd.Parameters.AddWithValue("@maxPersons", (object)DBNull.Value); // expliciet NULL maken
+                }
+                else if (vehicleDTO is TaxiDTO taxi)
+                {
+                    cmd.Parameters.AddWithValue("@maxPersons", taxi.MaxPersons);
+                    cmd.Parameters.AddWithValue("@maxLoad", (object)DBNull.Value); // expliciet NULL maken
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@maxLoad", (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@maxPersons", (object)DBNull.Value);
+                }
 
                 cmd.ExecuteNonQuery();
 
                 sqlConnection.Close();
             }
+        }
+
+        public VehicleDTO GetVehicleByID(int vehicleid)
+        {
+            VehicleDTO vehicleDTO = new VehicleDTO();
+
+            int id = vehicleid;
+
+            sqlConnection.Open();
+            using (MySqlCommand command = new MySqlCommand("SELECT * FROM TransporTDB.vehicle WHERE vehicleid = @id;", sqlConnection))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        if (id == Convert.ToInt32(reader["vehicleid"]))
+                        {
+                            vehicleDTO.Id = Convert.ToInt32(reader["vehicleid"]);
+                            vehicleDTO.VehicleBrandModel = reader["vehiclebrandmodel"].ToString();
+                            vehicleDTO.VehicleType = Convert.ToInt32(reader["type"]);
+                            vehicleDTO.TotalDriven = Convert.ToInt32(reader["totaldriven"]);
+                            vehicleDTO.LicencePlate = reader["licenceplate"].ToString();
+                        }
+
+                    }
+                }
+
+            }
+            sqlConnection.Close();
+            return vehicleDTO;
         }
     }
 }

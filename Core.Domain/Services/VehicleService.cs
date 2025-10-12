@@ -13,18 +13,32 @@ namespace Core.Domain.Services
         public void AddVehicle(Vehicle vehicle)
         {
             //ToDo: validatie
-           
-
             VehicleRepository vehicleRepository = new VehicleRepository();
-            vehicleRepository.AddVehicle(new VehicleDTO() 
-            { 
-                VehicleBrandModel = vehicle.VehicleBrandModel, 
-                VehicleType = Convert.ToInt32(vehicle.VehicleType),
-                LicencePlate = vehicle.LicencePlate, 
-                TotalDriven = vehicle.TotalDriven,
-                MaxLoad = vehicle.MaxLoad,
-                MaxPersons = vehicle.MaxPersons
-            });
+
+            if (vehicle is Truck truck)
+            {
+                vehicleRepository.AddVehicle(new TruckDTO()
+                {
+                    VehicleBrandModel = vehicle.VehicleBrandModel,
+                    VehicleType = Convert.ToInt32(vehicle.VehicleType),
+                    LicencePlate = vehicle.LicencePlate,
+                    TotalDriven = vehicle.TotalDriven,
+                    MaxLoad = truck.MaxLoad,
+                });
+            }
+            else if (vehicle is Taxi taxi)
+            {
+                vehicleRepository.AddVehicle(new TaxiDTO()
+                {
+                    VehicleBrandModel = vehicle.VehicleBrandModel,
+                    VehicleType = Convert.ToInt32(vehicle.VehicleType),
+                    LicencePlate = vehicle.LicencePlate,
+                    TotalDriven = vehicle.TotalDriven,
+                    MaxPersons = taxi.MaxPersons
+                });
+
+            }
+            
         }
     }
 }

@@ -24,12 +24,32 @@ namespace Core.Domain
 
             foreach (VehicleDTO vehicleDTO in data)
             {
-                Vehicle vehicle = new Vehicle(
-                    vehicleDTO.VehicleBrandModel,
-                    (Core.Domain.VehicleType)vehicleDTO.VehicleType,
-                    vehicleDTO.LicencePlate,
-                    vehicleDTO.MaxLoad,
-                    vehicleDTO.MaxPersons);
+                Vehicle vehicle;
+
+                if (vehicleDTO is TruckDTO truckDTO)
+                {
+                    vehicle = new Truck(
+                        truckDTO.VehicleBrandModel,
+                        (Core.Domain.VehicleType)truckDTO.VehicleType,
+                        truckDTO.LicencePlate,
+                        truckDTO.MaxLoad);
+                }
+                else if (vehicleDTO is TaxiDTO taxiDTO)
+                {
+                    vehicle = new Taxi(
+                        taxiDTO.VehicleBrandModel,
+                        (Core.Domain.VehicleType)taxiDTO.VehicleType,
+                        taxiDTO.LicencePlate,
+                        taxiDTO.MaxPersons);
+                }
+                else
+                {
+                    vehicle = new Vehicle(
+                        vehicleDTO.VehicleBrandModel,
+                        (Core.Domain.VehicleType)vehicleDTO.VehicleType,
+                        vehicleDTO.LicencePlate);
+                }
+
                 _vehicles.Add(vehicle);
             }
         }
