@@ -2,7 +2,7 @@
 {
     public class TransportDTO
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string PickupAddress { get; set; }
         public string DestinationAddress { get; set; }
         public DateTime TransportDateTime {  get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Core.Domain
+﻿namespace Core.Domain.Models.Employees
 {
     public class Driver
     {

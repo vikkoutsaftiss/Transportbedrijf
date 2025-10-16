@@ -1,4 +1,5 @@
-﻿using Infrastructure.DataAccess;
+﻿using Core.Domain.Models.Vehicles;
+using Infrastructure.DataAccess;
 using Infrastructure.DataAccess.DTO;
 using System;
 using System.Collections.Generic;

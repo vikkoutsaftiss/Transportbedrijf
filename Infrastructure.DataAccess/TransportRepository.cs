@@ -20,7 +20,7 @@ namespace Infrastructure.DataAccess
                     while (reader.Read())
                     {
                         TransportDTO transportDTO = new TransportDTO();
-                        transportDTO.ID = Convert.ToInt32(reader["transportid"]);
+                        transportDTO.Id = Convert.ToInt32(reader["transportid"]);
                         transportDTO.PickupAddress = reader["pickupaddress"].ToString();
                         transportDTO.DestinationAddress = reader["destinationaddress"].ToString();
                         transportDTO.TransportDateTime = (DateTime)reader["transportdatetime"];
@@ -55,5 +55,28 @@ namespace Infrastructure.DataAccess
             return transports;
 
         }
+
+        public void AddTransport(TransportDTO transportDTO)
+        {
+            string query = "INSERT INTO transport (transportType, pickupAddress, destinationAddress, transportDateTime, transportPrice, cargoWeight, passengerCount) VALUES (@transportType, @pickupAddress, @destinationAddress, @DateTime, @transportPrice, @transportWeight, @passengerCount)";
+            sqlConnection.Open();
+            using (MySqlCommand cmd = new MySqlCommand(query, sqlConnection))
+            {
+                cmd.Parameters.AddWithValue("@transportType", transportDTO.TransportType);
+                cmd.Parameters.AddWithValue("@pickupAddress", transportDTO.PickupAddress);
+                cmd.Parameters.AddWithValue("@destinationAddress", transportDTO.DestinationAddress);
+                cmd.Parameters.AddWithValue("@DateTime", transportDTO.TransportDateTime);
+                //cmd.Parameters.AddWithValue("transportPrice", transportDTO.)
+                cmd.Parameters.AddWithValue("@transportWeight", transportDTO.TransportWeight);
+                cmd.Parameters.AddWithValue("passengerCount", transportDTO.PassengerCount);
+
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+            }
+
+        }
     }
+
+
 }

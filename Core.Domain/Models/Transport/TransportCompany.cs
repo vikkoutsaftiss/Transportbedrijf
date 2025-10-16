@@ -1,4 +1,5 @@
-﻿using Infrastructure.DataAccess;
+﻿using Core.Domain.Models.Vehicles;
+using Infrastructure.DataAccess;
 using Infrastructure.DataAccess.DTO;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Domain
+namespace Core.Domain.Models.Transport
 {
     public class TransportCompany
     {
@@ -30,7 +31,7 @@ namespace Core.Domain
                 {
                     vehicle = new Truck(
                         truckDTO.VehicleBrandModel,
-                        (Core.Domain.VehicleType)truckDTO.VehicleType,
+                        (VehicleType)truckDTO.VehicleType,
                         truckDTO.LicencePlate,
                         truckDTO.MaxLoad);
                 }
@@ -38,7 +39,7 @@ namespace Core.Domain
                 {
                     vehicle = new Taxi(
                         taxiDTO.VehicleBrandModel,
-                        (Core.Domain.VehicleType)taxiDTO.VehicleType,
+                        (VehicleType)taxiDTO.VehicleType,
                         taxiDTO.LicencePlate,
                         taxiDTO.MaxPersons);
                 }
@@ -46,7 +47,7 @@ namespace Core.Domain
                 {
                     vehicle = new Vehicle(
                         vehicleDTO.VehicleBrandModel,
-                        (Core.Domain.VehicleType)vehicleDTO.VehicleType,
+                        (VehicleType)vehicleDTO.VehicleType,
                         vehicleDTO.LicencePlate);
                 }
 

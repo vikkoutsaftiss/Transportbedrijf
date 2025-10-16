@@ -1,4 +1,4 @@
-﻿using Core.Domain;
+﻿using Core.Domain.Models.Vehicles;
 using Infrastructure.DataAccess.DTO;
 using WebApp___Transportbedrijf.Models;
 
@@ -10,7 +10,7 @@ namespace WebApp___Transportbedrijf.Helpers.Mappers
         {
             return new Taxi(
                 taxiModel.VehicleBrandModel,
-                (Core.Domain.VehicleType)taxiModel.VehicleType,
+                (VehicleType)taxiModel.VehicleType,
                 taxiModel.LicencePlate,
                 taxiModel.MaxPersons
                 );

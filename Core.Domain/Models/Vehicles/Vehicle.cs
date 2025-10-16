@@ -1,5 +1,4 @@
-﻿
-namespace Core.Domain;
+﻿namespace Core.Domain.Models.Vehicles;
 
 public class Vehicle
 {

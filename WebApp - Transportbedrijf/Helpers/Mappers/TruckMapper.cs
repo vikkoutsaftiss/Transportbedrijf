@@ -1,4 +1,4 @@
-﻿using Core.Domain;
+﻿using Core.Domain.Models.Vehicles;
 using Infrastructure.DataAccess.DTO;
 using WebApp___Transportbedrijf.Models;
 
@@ -10,7 +10,7 @@ namespace WebApp___Transportbedrijf.Helpers.Mappers
         {
             return new Truck(
                 truckModel.VehicleBrandModel,
-                (Core.Domain.VehicleType)truckModel.VehicleType,
+                (VehicleType)truckModel.VehicleType,
                 truckModel.LicencePlate,
                 truckModel.MaxLoad
                 );
