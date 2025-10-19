@@ -1,9 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Core.Domain.Models.Employees;
-using Core.Domain.Models.Transport;
-using Core.Domain.Models.Vehicles;
 using Infrastructure.DataAccess;
 using System.Reflection.Metadata.Ecma335;
+using TransporT.Shared.Models.Employees;
+using TransporT.Shared.Models.Transport;
+using TransporT.Shared.Models.Vehicles;
 
 TransportCompany transportCompany = new TransportCompany("TransporT");
 

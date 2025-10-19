@@ -1,5 +1,6 @@
-﻿using Core.Domain.Models.Vehicles;
-using Infrastructure.DataAccess.DTO;
+﻿using Infrastructure.DataAccess.DTO;
+using TransporT.Shared.Enums;
+using TransporT.Shared.Models.Vehicles;
 using WebApp___Transportbedrijf.Models;
 
 namespace WebApp___Transportbedrijf.Helpers.Mappers
@@ -16,16 +17,18 @@ namespace WebApp___Transportbedrijf.Helpers.Mappers
                 );
         }
 
-        public static TruckModel MapToModel(this TruckDTO truckDTO)
+        public static TruckModel MapToModel(this Truck truck)
         {
             return new TruckModel
             {
-                VehicleBrandModel = truckDTO.VehicleBrandModel,
-                VehicleType = (VehicleTypeModel)truckDTO.VehicleType,
-                LicencePlate = truckDTO.LicencePlate,
-                TotalDriven = truckDTO.TotalDriven,
-                MaxLoad = truckDTO.MaxLoad
+                VehicleBrandModel = truck.VehicleBrandModel,
+                VehicleType = (VehicleTypeModel)truck.VehicleType,
+                LicencePlate = truck.LicencePlate,
+                TotalDriven = truck.TotalDriven,
+                MaxLoad = truck.MaxLoad
             };
         }
+
+       
     }
 }
