@@ -1,0 +1,44 @@
+﻿
+@page
+@model WebApp___Transportbedrijf.Pages.VehiclePages.ListModel
+@{
+}
+@using WebApp___Transportbedrijf.Models
+@using WebApp___Transportbedrijf.Pages.VehiclePages
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Merk & Model</th>
+            <th>Kenteken</th>
+            <th>Soort voertuig</th>
+            <th>Kilometerstand</th>
+            <th>Maximaal aantal passagiers (taxi)</th>
+            <th>Maximaal trekgewicht (vrachtwagen)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in Model.vehicleModels)
+        {
+            <tr>
+                <td>@vehicle.VehicleBrandModel</td>
+                <td>@vehicle.LicencePlate</td>
+                <td>@vehicle.VehicleType</td>
+                <td>@vehicle.TotalDriven</td>
+                <td>
+                    @if (vehicle is TaxiModel taxi)
+                    {
+                        @taxi.MaxPersons
+                    }
+                </td>
+                <td>
+                    @if (vehicle is TruckModel truck)
+                    {
+                        @truck.MaxLoad
+                    }
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

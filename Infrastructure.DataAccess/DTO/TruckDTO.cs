@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Domain
+namespace Infrastructure.DataAccess.DTO
 {
-    public enum TransportType
+    public class TruckDTO : VehicleDTO
     {
-        Cargo,
-        Passenger
+        public int MaxLoad { get; set; }
     }
 }

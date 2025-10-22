@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Domain
+namespace Infrastructure.DataAccess.DTO
 {
-    public class TransportCompany
+    public class TaxiDTO : VehicleDTO
     {
-
+        public int MaxPersons { get; set; }
+        
     }
 }

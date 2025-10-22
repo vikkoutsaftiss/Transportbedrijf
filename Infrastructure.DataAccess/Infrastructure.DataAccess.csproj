@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.DataAccess\Infrastructure.DataAccess.csproj" />
     <ProjectReference Include="..\TransporT.Shared\TransporT.Shared.csproj" />
   </ItemGroup>
 
 </Project>
+
