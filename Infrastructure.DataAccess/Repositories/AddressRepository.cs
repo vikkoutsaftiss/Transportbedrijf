@@ -27,7 +27,7 @@ namespace Infrastructure.DataAccess.Repositories
                         if (id == Convert.ToInt32(reader["addressid"]))
                         {
                             address.Id = Convert.ToInt32(reader["addressid"]);
-                            address.StreetWithNumber = reader["streetandnumber"].ToString();
+                            address.StreetWithNumber = reader["streetwithnumber"].ToString();
                             address.PostalCode = reader["postalcode"].ToString();
                             address.City = reader["city"].ToString();
                             address.Country = reader["country"].ToString();
@@ -39,7 +39,27 @@ namespace Infrastructure.DataAccess.Repositories
                     return address;
                 }
             }
+        }
 
+        public int AddAddress(AddressDTO addressDTO)
+        {
+            string query = "INSERT INTO addresses (streetWithNumber, postalCode, city, country, latitude, longitude) VALUES (@streetwithnumber, @postalcode, @city, @country, @latitude, @longitude); SELECT LAST_INSERT_ID();";
+            sqlConnection.Open();
+            using (MySqlCommand cmd = new MySqlCommand(query, sqlConnection))
+            {
+                cmd.Parameters.AddWithValue("streetWithNumber", addressDTO.StreetWithNumber);
+                cmd.Parameters.AddWithValue("postalCode", addressDTO.PostalCode);
+                cmd.Parameters.AddWithValue("city", addressDTO.City);
+                cmd.Parameters.AddWithValue("country", addressDTO.Country);
+                cmd.Parameters.AddWithValue("latitude", addressDTO.Latitude);
+                cmd.Parameters.AddWithValue("longitude", addressDTO.Longitude);
+
+                object result = cmd.ExecuteScalar();
+                sqlConnection.Close();
+
+                int newAddressId = Convert.ToInt32(result);
+                return newAddressId;
+            }
 
         }
     }

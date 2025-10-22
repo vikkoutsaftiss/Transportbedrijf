@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TransporT.Shared.Models.AddressClass
+namespace Core.Domain.Models.AddressClass
 {
     public class Address
     {

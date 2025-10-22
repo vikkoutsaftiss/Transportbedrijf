@@ -1,4 +1,4 @@
-﻿using TransporT.Shared.Models.AddressClass;
+﻿using Core.Domain.Models.AddressClass;
 using WebApp___Transportbedrijf.Models;
 
 namespace WebApp___Transportbedrijf.Helpers.Mappers

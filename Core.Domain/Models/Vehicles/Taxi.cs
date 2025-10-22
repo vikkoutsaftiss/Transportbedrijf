@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TransporT.Shared.Enums;
 
-namespace TransporT.Shared.Models.Vehicles
+namespace Core.Domain.Models.Vehicles
 {
     public class Taxi : Vehicle
     {

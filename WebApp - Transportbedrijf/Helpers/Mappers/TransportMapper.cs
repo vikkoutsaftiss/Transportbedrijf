@@ -1,6 +1,4 @@
-﻿using System.Net.NetworkInformation;
-using TransporT.Shared;
-using TransporT.Shared.Models.Transport;
+﻿using Core.Domain.Models.Transport;
 using WebApp___Transportbedrijf.Models;
 
 namespace WebApp___Transportbedrijf.Helpers.Mappers

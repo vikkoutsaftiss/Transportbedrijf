@@ -1,12 +1,12 @@
-﻿using Infrastructure.DataAccess.DTO;
+﻿using Core.Domain.Models.Vehicles;
+using Infrastructure.DataAccess.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TransporT.Shared.Models.Vehicles;
 
-namespace Infrastructure.DataAccess.Mappers
+namespace Core.Domain.Mappers
 {
     public static class TruckMapper
     {
@@ -20,6 +20,16 @@ namespace Infrastructure.DataAccess.Mappers
                 TotalDriven = truck.TotalDriven,
                 MaxLoad = truck.MaxLoad
             };
+        }
+
+        public static Truck MapToModel(this TruckDTO truckDTO)
+        {
+            return new Truck(
+                truckDTO.VehicleBrandModel,
+                truckDTO.VehicleType,
+                truckDTO.LicencePlate,
+                truckDTO.MaxLoad
+                );
         }
     }
 }

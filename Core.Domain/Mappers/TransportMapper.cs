@@ -1,14 +1,12 @@
-﻿using Infrastructure.DataAccess.DTO;
+﻿using Core.Domain.Models.Transport;
+using Infrastructure.DataAccess.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using TransporT.Shared;
-using TransporT.Shared.Models.Transport;
 
-namespace Infrastructure.DataAccess.Mappers
+namespace Core.Domain.Mappers
 {
     public static class TransportMapper
     {
@@ -26,7 +24,5 @@ namespace Infrastructure.DataAccess.Mappers
                 PassengerCount = transportRequest.PassengerCount
             };
         }
-
-
     }
 }

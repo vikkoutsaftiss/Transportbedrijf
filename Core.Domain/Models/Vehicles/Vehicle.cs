@@ -1,6 +1,6 @@
 ﻿using TransporT.Shared.Enums;
 
-namespace TransporT.Shared.Models.Vehicles;
+namespace Core.Domain.Models.Vehicles;
 
 public class Vehicle
 {

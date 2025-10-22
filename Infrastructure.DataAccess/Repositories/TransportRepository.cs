@@ -1,7 +1,6 @@
 ﻿using Infrastructure.DataAccess.DTO;
 using MySql.Data.MySqlClient;
 using TransporT.Shared.Enums;
-using TransporT.Shared.Models;
 
 
 
@@ -67,19 +66,24 @@ namespace Infrastructure.DataAccess.Repositories
 
         }
 
-        public void AddTransport(TransportDTO transportDTO)
+        public void AddTransport(TransportDTO transportDTO, int pickupAddressId, int destinationAddressId)
         {
-            string query = "INSERT INTO transport (transportType, pickupAddress, destinationAddress, transportDateTime, transportPrice, cargoWeight, passengerCount) VALUES (@transportType, @pickupAddress, @destinationAddress, @DateTime, @transportPrice, @transportWeight, @passengerCount)";
+            string query = "INSERT INTO transport (transportType, pickupAddressId, destinationAddressId, transportDateTime, cargoWeight, passengerCount) VALUES (@transportType, @pickupAddressid, @destinationAddressid, @DateTime, @transportWeight, @passengerCount)";
             sqlConnection.Open();
             using (MySqlCommand cmd = new MySqlCommand(query, sqlConnection))
             {
-                cmd.Parameters.AddWithValue("@transportType", transportDTO.TransportType);
-                cmd.Parameters.AddWithValue("@pickupAddress", transportDTO.PickupAddress);
-                cmd.Parameters.AddWithValue("@destinationAddress", transportDTO.DestinationAddress);
+                cmd.Parameters.AddWithValue("@transportType", transportDTO.TransportType.ToString());
+                cmd.Parameters.AddWithValue("@pickupAddressId", pickupAddressId);
+                cmd.Parameters.AddWithValue("@destinationAddressId", destinationAddressId);
                 cmd.Parameters.AddWithValue("@DateTime", transportDTO.TransportDateTime);
-                //cmd.Parameters.AddWithValue("transportPrice", transportDTO.)
-                cmd.Parameters.AddWithValue("@transportWeight", transportDTO.TransportWeight);
-                cmd.Parameters.AddWithValue("passengerCount", transportDTO.PassengerCount);
+                cmd.Parameters.AddWithValue("@transportWeight",
+                    transportDTO.TransportWeight.HasValue
+                    ? (object)transportDTO.TransportWeight.Value
+                    : DBNull.Value);
+                cmd.Parameters.AddWithValue("@passengerCount", 
+                    transportDTO.PassengerCount.HasValue
+                    ? (object)transportDTO.PassengerCount.Value
+                    : DBNull.Value);
 
                 cmd.ExecuteNonQuery();
                 sqlConnection.Close();

@@ -1,6 +1,6 @@
-﻿using Infrastructure.DataAccess.DTO;
+﻿using Core.Domain.Models.Vehicles;
+using Infrastructure.DataAccess.DTO;
 using TransporT.Shared.Enums;
-using TransporT.Shared.Models.Vehicles;
 using WebApp___Transportbedrijf.Models;
 
 namespace WebApp___Transportbedrijf.Helpers.Mappers

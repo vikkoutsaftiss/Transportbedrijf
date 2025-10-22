@@ -36,7 +36,7 @@
     <input type="hidden" asp-for="Transport.DestinationAddress.Latitude" id="destination-latitude" />
     <input type="hidden" asp-for="Transport.DestinationAddress.Longitude" id="destination-longitude" />
 
-    <input type="hidden" asp-for="Transport.transportDistance" id="input-afstand" />
+    <input type="hidden" asp-for="Transport.TransportDistance" id="input-afstand" />
 
     <p>
         <small>Straat: <span id="destination-street-display"></span></small><br />
@@ -45,6 +45,27 @@
         <small>Land: <span id="destination-country-display"></span></small><br />
         <small>Coördinaten: (<span id="destination-lat-display"></span>, <span id="destination-lng-display"></span>)</small>
     </p>
+
+    <div class="form-group">
+        <label asp-for="Transport.DateTime"></label>
+
+        <input asp-for="Transport.DateTime"
+               type="datetime-local"
+               class="form-control"
+               step="900" />
+
+        <span asp-validation-for="Transport.DateTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Transport.TransportType">Vervoertype</label>
+
+        <select asp-for="Transport.TransportType" asp-items="Model.TransportTypes" class="form-control">
+            <option value="">-- Kies een vervoertype --</option>
+        </select>
+
+        <span asp-validation-for="Transport.TransportType" class="text-danger"></span>
+    </div>
 
     <hr />
     <div id="route-info" class="alert alert-info" style="display: none;">
@@ -187,7 +208,7 @@
                         <strong>Afstand:</strong> ${distance}`;
 
                     // 2. VUL DE VERBORGEN VELDEN (voor C# model)
-                    document.getElementById('input-afstand').value = distance;
+                    document.getElementById('input-afstand').value = TransportDistance;
 
                 } else {
                     console.error("Fout bij ophalen route:", status);

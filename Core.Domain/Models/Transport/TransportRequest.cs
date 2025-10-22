@@ -1,10 +1,9 @@
-﻿using System.Net;
+﻿using Core.Domain.Models.AddressClass;
+using Core.Domain.Models.Vehicles;
 using TransporT.Shared.Enums;
-using TransporT.Shared.Models.AddressClass;
 using TransporT.Shared.Models.Employees;
-using TransporT.Shared.Models.Vehicles;
 
-namespace TransporT.Shared.Models.Transport
+namespace Core.Domain.Models.Transport
 {
     public class TransportRequest
     {

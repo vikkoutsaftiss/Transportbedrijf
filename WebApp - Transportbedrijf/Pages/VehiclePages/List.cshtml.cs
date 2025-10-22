@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebApp___Transportbedrijf.Helpers.Mappers;
 using WebApp___Transportbedrijf.Models;
-using TransporT.Shared.Models.Vehicles;
 using Core.Domain.Services;
-using TransporT.Services;
+using Core.Domain.Models.Vehicles;
 
 namespace WebApp___Transportbedrijf.Pages.VehiclePages
 {
@@ -18,11 +17,11 @@ namespace WebApp___Transportbedrijf.Pages.VehiclePages
         {
             VehicleService vehicleService = new VehicleService();
 
-            List<TransporT.Shared.Models.Vehicles.Vehicle> vehicles = vehicleService.GetVehicles();
+            List<Core.Domain.Models.Vehicles.Vehicle> vehicles = vehicleService.GetVehicles();
 
             vehicleModels = new List<VehicleModel>();
 
-            foreach (TransporT.Shared.Models.Vehicles.Vehicle vehicle in vehicles)
+            foreach (Core.Domain.Models.Vehicles.Vehicle vehicle in vehicles)
             {
                 VehicleModel vehicleModel = new VehicleModel();             
                 
