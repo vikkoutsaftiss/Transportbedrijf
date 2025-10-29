@@ -58,14 +58,29 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="TaxiRequest.TransportType">Vervoertype</label>
+        <label asp-for="TaxiRequest.TransportType">Vervoertype:</label>
 
-        <input type="hidden" asp-for="TaxiRequest.TransportType" value="Personenvervoer" />
+        <input type="hidden" asp-for="TaxiRequest.TransportType" value="Passenger" />
 
         <p class="form-control-static">Personenvervoer</p>
 
         <span asp-validation-for="TaxiRequest.TransportType" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <input asp-for="TaxiRequest.PassengerCount"
+                type="number"
+                class="form-control"
+                placeholder="Voer het aantal passagiers in"
+                min="1"
+                required />
+        <p>
+            <small>Gewicht: <span id="cargo-weight-display"></span> kg</small>
+            <span asp-validation-for="TaxiRequest.PassengerCount" class="text-danger"></span>
+        </p>
+    </div>
+
+
 
     <hr />
     <div id="route-info" class="alert alert-info" style="display: none;">
@@ -208,7 +223,7 @@
                         <strong>Afstand:</strong> ${distance}`;
 
                     // 2. VUL DE VERBORGEN VELDEN (voor C# model)
-                    document.getElementById('input-afstand').value = TransportDistance;
+                    document.getElementById('input-afstand').value = distanceMeters;
 
                 } else {
                     console.error("Fout bij ophalen route:", status);

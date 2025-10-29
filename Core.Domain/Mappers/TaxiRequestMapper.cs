@@ -32,7 +32,9 @@ namespace Core.Domain.Mappers
                 taxiRequestDTO.DestinationAddress.Map(),
                 taxiRequestDTO.TransportDateTime,
                 taxiRequestDTO.TransportType,
-                taxiRequestDTO.PassengerCount
+                taxiRequestDTO.PassengerCount,
+                taxiRequestDTO.TransportDistance,
+                taxiRequestDTO.TransportStatus
                 );
         }
     }

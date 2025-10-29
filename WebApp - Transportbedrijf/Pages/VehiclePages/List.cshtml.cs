@@ -12,7 +12,7 @@ namespace WebApp___Transportbedrijf.Pages.VehiclePages
     {
         public Taxi Taxi { get; set; }
         public Truck Truck { get; set; }
-        public List<VehicleModel> vehicleModels {  get; set; }
+        public List<VehicleModel> vehicleModels {  get; set; } 
         public void OnGet()
         {
             VehicleService vehicleService = new VehicleService();

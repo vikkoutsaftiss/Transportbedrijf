@@ -26,6 +26,7 @@ namespace Core.Domain.Mappers
         public static Address Map(this AddressDTO addressDTO)
         {
             return new Address(
+                addressDTO.Id,
                 addressDTO.StreetWithNumber,
                 addressDTO.PostalCode,
                 addressDTO.City,

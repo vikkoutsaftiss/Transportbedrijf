@@ -15,7 +15,7 @@ namespace Core.Domain.Models.Transport
         private Driver _driver;
         private TransportType _transportType;
         private TransportStatus _transportStatus;
-        private int _transportDistance;
+        private decimal _transportDistance;
         
 
         public int Id { get { return _Id; } }
@@ -26,18 +26,29 @@ namespace Core.Domain.Models.Transport
         public Driver Driver { get { return _driver; } }
         public TransportType TransportType { get { return _transportType; } }
         public TransportStatus TransportStatus { get { return _transportStatus; } }
-        public int TransportDistance { get { return _transportDistance; } }
+        public decimal TransportDistance { get { return _transportDistance; } }
         
 
 
-        public TransportRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType)
+        public TransportRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType, decimal transportDistance)
         {
             _pickUpAddress = pickUpAddress;
             _destinationAddress = destinationAddress;
             _transportDateTime = dateTime;
             _transportType = transportType;
             _transportStatus = TransportStatus.Pending;
+            _transportDistance = transportDistance;
 
+        }
+
+        public TransportRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType, decimal transportDistance, TransportStatus transportStatus)
+        {
+            _pickUpAddress = pickUpAddress;
+            _destinationAddress = destinationAddress;
+            _transportDateTime = dateTime;
+            _transportType = transportType;
+            _transportStatus = transportStatus;
+            _transportDistance = transportDistance;
         }
 
     }

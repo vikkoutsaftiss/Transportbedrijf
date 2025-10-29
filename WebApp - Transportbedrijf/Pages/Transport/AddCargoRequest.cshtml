@@ -47,7 +47,7 @@
     </p>
 
     <div class="form-group">
-        <label asp-for="CargoRequest.DateTime"></label>
+        <label asp-for="CargoRequest.DateTime">Datum:</label>
 
         <input asp-for="CargoRequest.DateTime"
                type="datetime-local"
@@ -58,14 +58,29 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="CargoRequest.TransportType">Vervoertype</label>
+        <label asp-for="CargoRequest.TransportType">Vervoertype:</label>
 
-        <input type="hidden" asp-for="CargoRequest.TransportType" value="Vrachtvervoer" />
+        <input type="hidden" asp-for="CargoRequest.TransportType" value="Cargo" />
 
         <p class="form-control-static">Vrachtvervoer</p>
 
         <span asp-validation-for="CargoRequest.TransportType" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <label asp-for="CargoRequest.TransportWeight">Gewicht:</label>
+        <input asp-for="CargoRequest.TransportWeight"
+               type="number"
+               class="form-control"
+               placeholder="Voer het gewicht in kg in"
+               min="1"
+               required />
+        <p>
+            <small>Gewicht: <span id="cargo-weight-display"></span> kg</small>
+            <span asp-validation-for="CargoRequest.TransportWeight" class="text-danger"></span>
+        </p>
+    </div>
+    
 
     <hr />
     <div id="route-info" class="alert alert-info" style="display: none;">
@@ -177,15 +192,14 @@
         /**
          * Berekent en tekent de route op de kaart als beide adressen bekend zijn.
          */
-        function calculateAndDisplayRoute() {
+                function calculateAndDisplayRoute() {
             const routeInfoDiv = document.getElementById('route-info');
 
             if (!pickupCoords || !destinationCoords) {
-                routeInfoDiv.style.display = 'none'; // Verberg info als niet compleet
+                routeInfoDiv.style.display = 'none';
                 return;
             }
 
-            // Toon status tijdens berekening
             routeInfoDiv.innerText = 'Route aan het berekenen...';
             routeInfoDiv.style.display = 'block';
 
@@ -201,28 +215,26 @@
 
                     const leg = result.routes[0].legs[0];
                     const distance = leg.distance.text;
-                    const duration = leg.duration.text;
+                    const distanceValue = leg.distance.value / 1000; // in km
 
-                    // 1. Toon informatie op de pagina (voor gebruiker)
-                    document.getElementById('route-info').innerHTML = `
-                        <strong>Afstand:</strong> ${distance}`;
+                    document.getElementById('route-info').innerHTML =
+                        `<strong>Afstand:</strong> ${distance}`;
 
-                    // 2. VUL DE VERBORGEN VELDEN (voor C# model)
-                    document.getElementById('input-afstand').value = TransportDistance;
+                    // ✅ Vul het verborgen veld
+                    document.getElementById('input-afstand').value = distanceValue.toFixed(2);
 
                 } else {
                     console.error("Fout bij ophalen route:", status);
                     directionsRenderer.setDirections({ routes: [] });
-
-                    // Toon foutmelding aan de gebruiker
-                    routeInfoDiv.classList.remove('alert-info');
                     routeInfoDiv.classList.add('alert-danger');
                     routeInfoDiv.innerText = `Fout bij berekenen van de route (${status}). Controleer de adressen.`;
-                    routeInfoDiv.style.display = 'block';
                 }
             });
         }
+
     </script>
 }
+
+
 
 

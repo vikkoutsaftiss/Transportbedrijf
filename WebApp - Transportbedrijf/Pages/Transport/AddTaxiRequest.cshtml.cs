@@ -12,15 +12,8 @@ namespace WebApp___Transportbedrijf.Pages.Transport
         [BindProperty]
         public TaxiRequestModel TaxiRequest { get; set; } = new();
 
-        public List<SelectListItem> TransportTypes { get; set; }
         public void OnGet()
         {
-            TransportTypes = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "Cargo", Text = "Vrachtvervoer" },
-                new SelectListItem { Value = "Taxi", Text = "Personenvervoer" }
-            };
-
             DateTime now = DateTime.Now;
             int minutes = (now.Minute / 15) * 15;
 
@@ -37,7 +30,7 @@ namespace WebApp___Transportbedrijf.Pages.Transport
             TransportService transportService = new TransportService();
             transportService.AddTransport(TaxiRequest.Map());
 
-            return RedirectToPage("/VehiclePages/List");
+            return RedirectToPage("/Transport/List");
         }
         
     }

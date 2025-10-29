@@ -12,9 +12,24 @@ namespace WebApp___Transportbedrijf.Helpers.Mappers
                 cargoRequestModel.DestinationAddress.Map(),
                 cargoRequestModel.DateTime,
                 cargoRequestModel.TransportType,
-                //transportModel.transportDistance,
+                cargoRequestModel.TransportDistance,
                 cargoRequestModel.TransportWeight
                 );
         }
+
+        public static CargoRequestModel MapToModel(this CargoRequest cargoRequest)
+        {
+            return new CargoRequestModel
+            {
+                PickupAddress = cargoRequest.PickUpAddress.MapToModel(),
+                DestinationAddress = cargoRequest.DestinationAddress.MapToModel(),
+                DateTime = cargoRequest.DateTime,
+                TransportType = cargoRequest.TransportType,
+                TransportWeight = cargoRequest.TransportWeight,
+                TransportDistance = cargoRequest.TransportDistance
+            };
+        }
+
+       
     }
 }

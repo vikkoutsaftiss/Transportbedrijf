@@ -14,8 +14,8 @@ namespace Core.Domain.Models.Transport
 
         public int TransportWeight { get { return _transportWeight; }}
 
-        public CargoRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType, int transportWeight)
-            : base(pickUpAddress, destinationAddress, dateTime, transportType)
+        public CargoRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType, decimal transportDistance, int transportWeight)
+            : base(pickUpAddress, destinationAddress, dateTime, transportType, transportDistance)
         {
             _transportWeight = transportWeight;
         }

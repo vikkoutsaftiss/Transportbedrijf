@@ -12,8 +12,25 @@ namespace WebApp___Transportbedrijf.Helpers.Mappers
                 taxiRequestModel.DestinationAddress.Map(),
                 taxiRequestModel.DateTime,
                 taxiRequestModel.TransportType,
-                //transportModel.transportDistance,
-                taxiRequestModel.PassengerCount);
+                taxiRequestModel.PassengerCount,
+                taxiRequestModel.TransportDistance,
+                taxiRequestModel.TransportStatus
+                );
+        }
+    
+
+    public static TaxiRequestModel MapToModel(this TaxiRequest taxiRequest)
+        {
+            return new TaxiRequestModel
+            {
+                PickupAddress = taxiRequest.PickUpAddress.MapToModel(),
+                DestinationAddress = taxiRequest.DestinationAddress.MapToModel(),
+                DateTime = taxiRequest.DateTime,
+                TransportType = taxiRequest.TransportType,
+                PassengerCount = taxiRequest.PassengerCount,
+                TransportDistance = taxiRequest.TransportDistance,
+                TransportStatus = taxiRequest.TransportStatus
+            };
         }
     }
 }

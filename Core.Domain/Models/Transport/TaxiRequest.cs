@@ -14,10 +14,11 @@ namespace Core.Domain.Models.Transport
 
         public int PassengerCount { get { return _passengerCount; }}
 
-        public TaxiRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType, int passengerCount)
-            : base(pickUpAddress, destinationAddress, dateTime, transportType)
+        public TaxiRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType, int passengerCount, decimal transportDistance, TransportStatus transportStatus)
+            : base(pickUpAddress, destinationAddress, dateTime, transportType, transportDistance, transportStatus)
         {
             _passengerCount = passengerCount;
+            
         }
 
     }

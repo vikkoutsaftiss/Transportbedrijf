@@ -31,7 +31,8 @@ namespace Core.Domain.Mappers
                 cargoRequestDTO.DestinationAddress.Map(),
                 cargoRequestDTO.TransportDateTime,
                 cargoRequestDTO.TransportType,
-                cargoRequestDTO.TransportWeight
+                cargoRequestDTO.TransportDistance,
+                cargoRequestDTO.TransportWeight                
                 );
         }
     }

@@ -2,3 +2,47 @@
 @model WebApp___Transportbedrijf.Pages.Transport.ListModel
 @{
 }
+@using WebApp___Transportbedrijf.Models
+@using WebApp___Transportbedrijf.Pages.Transport
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ophaaladres</th>
+            <th>Bestemming</th>
+            <th>Gepland moment</th>
+            <th>Transport soort</th>
+            <th>Afstand in kilometers</th>
+            <th>Gewicht (vrachtvervoer)</th>
+            <th>Aantal personen (personenvervoer)</th>
+            <th>Status transport</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transport in Model.TransportModels)
+        {
+            <tr>
+                <td>@(transport.PickupAddress.StreetAndNumber + ", " + transport.PickupAddress.PostalCode + ", " + transport.PickupAddress.City + ", " + transport.PickupAddress.Country)</td>
+                <td>@(transport.DestinationAddress.StreetAndNumber + ", " + transport.DestinationAddress.PostalCode + ", " + transport.DestinationAddress.City + ", " + transport.DestinationAddress.Country)</td>
+                <td>@transport.DateTime</td>
+                <td>@transport.TransportType</td>
+                <td>@transport.TransportDistance</td>
+                <td>
+                    @if (transport is CargoRequestModel cargoRequestModel)
+                    {
+                        @cargoRequestModel.TransportWeight
+                    }
+                </td>
+                <td>
+                    @if (transport is TaxiRequestModel taxiRequestModel)
+                    {
+                        @taxiRequestModel.PassengerCount
+                    }
+                </td>
+                <td>@transport.TransportStatus</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
