@@ -19,9 +19,7 @@ namespace Core.Domain.Mappers
                 TransportDateTime = transportRequest.DateTime,
                 TransportType = transportRequest.TransportType,
                 TransportStatus = transportRequest.TransportStatus,
-                TransportDistance = transportRequest.TransportDistance,
-                TransportWeight = transportRequest.TransportWeight,
-                PassengerCount = transportRequest.PassengerCount
+                TransportDistance = transportRequest.TransportDistance
             };
         }
     }

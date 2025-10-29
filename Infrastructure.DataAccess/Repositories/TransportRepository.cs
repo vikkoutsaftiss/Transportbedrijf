@@ -1,4 +1,8 @@
-﻿using Infrastructure.DataAccessusing Infrastructure.DataAccess.DTO;
+﻿using Infrastructure.DataAccess.DTO;
+using MySql.Data.MySqlClient;
+using TransporT.Shared.Enums;
+using Infrastructure.DataAccess;
+using Infrastructure.DataAccess.DTO;
 using MySql.Data.MySqlClient;
 using TransporT.Shared.Enums;
 
@@ -67,50 +71,7 @@ namespace Infrastructure.DataAccess.Repositories
             return taxiRequestDTOs;
         }
 
-        private List<CargoRequestDTO> GetCargoRequests()
-        {
-            List<CargoRequestDTO> cargoRequestDTOs = new List<CargoRequestDTO>();
-
-            sqlConnection.Open();
-            using (MySqlCommand command = new MySqlCommand("SELECT * FROM TransporTDB.transport;", sqlConnection))
-            {
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        TaxiRequestDTO taxiRequestDTO = new TaxiRequestDTO();
-
-                        taxiRequestDTO.Id = Convert.ToInt32(reader["transportid"]);
-                        taxiRequestDTO.TransportDateTime = (DateTime)reader["transportdatetime"];
-                        taxiRequestDTO.TransportType = (TransportType)Convert.ToInt32(reader["transporttype"]);
-                        taxiRequestDTO.TransportStatus = (TransportStatus)Convert.ToInt32(reader["transportstatus"]);
-                        taxiRequestDTO.PassengerCount = Convert.ToInt32(reader["passengercount"]);
-
-                        int pickupAddressID = Convert.ToInt32(reader["pickupaddressid"]);
-                        AddressRepository addressRepository = new AddressRepository();
-                        AddressDTO pickupAddress = addressRepository.GetAddressByID(pickupAddressID);
-                        taxiRequestDTO.PickupAddress = pickupAddress;
-
-                        int destinationAddressID = Convert.ToInt32(reader["destinationaddressid"]);
-                        AddressDTO destinationAddress = addressRepository.GetAddressByID(destinationAddressID);
-                        taxiRequestDTO.PickupAddress = pickupAddress;
-
-                        int driverid = Convert.ToInt32(reader["driverid"]);
-                        DriverRepository driverRepository = new DriverRepository();
-                        DriverDTO driver = driverRepository.GetDriverByID(driverid);
-                        taxiRequestDTO.Driver = driver;
-
-                        int vehicleId = Convert.ToInt32(reader["vehicleid"]);
-                        VehicleRepository vehicleRepository = new VehicleRepository();
-                        VehicleDTO vehicle = vehicleRepository.GetVehicleByID(vehicleId);
-                        taxiRequestDTO.Vehicle = vehicle;
-
-                        taxiRequestDTOs.Add(taxiRequestDTO);
-
-                    }
-            }
-            return taxiRequestDTOs;
-        }
+        
 
         private List<CargoRequestDTO> GetCargoRequests()
         {
@@ -187,21 +148,7 @@ namespace Infrastructure.DataAccess.Repositories
             }
         }
 
-        public void AddCargoTransport(CargoRequestDTO cargoRequestDTO, int pickupAddressId, int destinationAddressId)
-        private void AddTransport(TransportDTO transportDTO, int pickupAddressId, int destinationAddressId, string query)
-        {
-            string query = "INSERT INTO transport (transportType, pickupAddressId, destinationAddressId, transportDateTime, cargoWeight) VALUES (@transportType, @pickupAddressid, @destinationAddressid, @DateTime, @transportWeight)";
-            sqlConnection.Open();
-            using (MySqlCommand cmd = new MySqlCommand(query, sqlConnection))
-            {
-                AddTransport(cargoRequestDTO, pickupAddressId, destinationAddressId, query);
-                cmd.Parameters.AddWithValue("@transportWeight", cargoRequestDTO.TransportWeight);
-
-                cmd.ExecuteNonQuery();
-                sqlConnection.Close();
-            }
-        }
-
+        
         private void AddTransport(TransportDTO transportDTO, int pickupAddressId, int destinationAddressId, string query)
         {
             sqlConnection.Open();
