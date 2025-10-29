@@ -16,6 +16,7 @@ namespace Core.Domain.Models.Transport
         private TransportType _transportType;
         private TransportStatus _transportStatus;
         private int _transportDistance;
+        
 
         public int Id { get { return _Id; } }
         public Address PickUpAddress { get { return _pickUpAddress; } }
@@ -26,6 +27,7 @@ namespace Core.Domain.Models.Transport
         public TransportType TransportType { get { return _transportType; } }
         public TransportStatus TransportStatus { get { return _transportStatus; } }
         public int TransportDistance { get { return _transportDistance; } }
+        
 
 
         public TransportRequest(Address pickUpAddress, Address destinationAddress, DateTime dateTime, TransportType transportType)
@@ -35,6 +37,7 @@ namespace Core.Domain.Models.Transport
             _transportDateTime = dateTime;
             _transportType = transportType;
             _transportStatus = TransportStatus.Pending;
+
         }
 
     }

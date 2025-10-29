@@ -29,7 +29,7 @@ namespace TransporT.Services.Services
                 TaxiRequestDTO taxiRequestDTO = TaxiRequestMapper.MapToDTO(taxiRequest);
                 transportRepository.AddTaxiTransport(taxiRequestDTO, pickupAddressId, destinationAddressId);
             }
-            else if(transport is CargoRequest cargoRequest)
+            else if (transport is CargoRequest cargoRequest)
             {
                 CargoRequestDTO cargoRequestDTO = CargoRequestMapper.MapToDTO(cargoRequest);
                 transportRepository.AddCargoTransport(cargoRequestDTO, pickupAddressId, destinationAddressId);
