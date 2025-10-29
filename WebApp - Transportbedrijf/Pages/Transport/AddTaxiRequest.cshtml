@@ -1,0 +1,228 @@
+﻿@page
+@model WebApp___Transportbedrijf.Pages.Transport.AddTaxiRequestModel
+@{
+}
+
+<h1>Nieuw personenvervoer verzoek</h1>
+
+<form method="post">
+    <h4>Ophaaladres</h4>
+    <input type="text" id="pickup-input" class="form-control" placeholder="Begin met typen..." />
+
+    <input type="hidden" asp-for="TaxiRequest.PickupAddress.StreetAndNumber" id="pickup-street" />
+    <input type="hidden" asp-for="TaxiRequest.PickupAddress.PostalCode" id="pickup-postal-code" />
+    <input type="hidden" asp-for="TaxiRequest.PickupAddress.City" id="pickup-city" />
+    <input type="hidden" asp-for="TaxiRequest.PickupAddress.Country" id="pickup-country" />
+
+    <input type="hidden" asp-for="TaxiRequest.PickupAddress.Latitude" id="pickup-latitude" />
+    <input type="hidden" asp-for="TaxiRequest.PickupAddress.Longitude" id="pickup-longitude" />
+
+    <p>
+        <small>Straat: <span id="pickup-street-display"></span></small><br />
+        <small>Postcode: <span id="pickup-postal-display"></span></small><br />
+        <small>Plaats: <span id="pickup-city-display"></span></small><br />
+        <small>Land: <span id="pickup-country-display"></span></small><br />
+        <small>Coördinaten: (<span id="pickup-lat-display"></span>, <span id="pickup-lng-display"></span>)</small>
+    </p>
+
+    <h4>Afleveradres</h4>
+    <input type="text" id="destination-input" class="form-control" placeholder="Begin met typen..." />
+
+    <input type="hidden" asp-for="TaxiRequest.DestinationAddress.StreetAndNumber" id="destination-street" />
+    <input type="hidden" asp-for="TaxiRequest.DestinationAddress.PostalCode" id="destination-postal-code" />
+    <input type="hidden" asp-for="TaxiRequest.DestinationAddress.City" id="destination-city" />
+    <input type="hidden" asp-for="TaxiRequest.DestinationAddress.Country" id="destination-country" />
+
+    <input type="hidden" asp-for="TaxiRequest.DestinationAddress.Latitude" id="destination-latitude" />
+    <input type="hidden" asp-for="TaxiRequest.DestinationAddress.Longitude" id="destination-longitude" />
+
+    <input type="hidden" asp-for="TaxiRequest.TransportDistance" id="input-afstand" />
+
+    <p>
+        <small>Straat: <span id="destination-street-display"></span></small><br />
+        <small>Postcode: <span id="destination-postal-display"></span></small><br />
+        <small>Plaats: <span id="destination-city-display"></span></small><br />
+        <small>Land: <span id="destination-country-display"></span></small><br />
+        <small>Coördinaten: (<span id="destination-lat-display"></span>, <span id="destination-lng-display"></span>)</small>
+    </p>
+
+    <div class="form-group">
+        <label asp-for="TaxiRequest.DateTime"></label>
+
+        <input asp-for="TaxiRequest.DateTime"
+               type="datetime-local"
+               class="form-control"
+               step="900" />
+
+        <span asp-validation-for="TaxiRequest.DateTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TaxiRequest.TransportType">Vervoertype</label>
+
+        <input type="hidden" asp-for="TaxiRequest.TransportType" value="Personenvervoer" />
+
+        <p class="form-control-static">Personenvervoer</p>
+
+        <span asp-validation-for="TaxiRequest.TransportType" class="text-danger"></span>
+    </div>
+
+    <hr />
+    <div id="route-info" class="alert alert-info" style="display: none;">
+        De routeinformatie wordt berekend...
+    </div>
+
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+
+    <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+</form>
+
+@section Scripts {
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJe8XXPMUHXsB4OVwQxjGuZbLYLUk1FrE&libraries=places&callback=initAutocomplete" async defer></script>
+
+    <script>
+        let pickupAutocomplete, destinationAutocomplete;
+        // Nieuwe variabelen voor de kaart en route services
+        let map, directionsService, directionsRenderer;
+
+        // Opslag voor de coördinaten na selectie
+        let pickupCoords = null;
+        let destinationCoords = null;
+
+        function initAutocomplete() {
+            // Initialiseer de kaartservices (eenmaal)
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+
+            // Initialiseer de kaart in de div #map (als deze in de HTML bestaat!)
+            // We stellen de kaart in op een centrale locatie (bijv. Nederland)
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 7,
+                center: { lat: 52.37, lng: 5.20 },
+            });
+            directionsRenderer.setMap(map);
+
+
+            // Ophaaladres
+            const pickupInput = document.getElementById('pickup-input');
+            pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, {
+                types: ['address'],
+                componentRestrictions: { country: ['nl', 'be'] }
+            });
+            // Roep de routefunctie aan na het invullen van het adres
+            pickupAutocomplete.addListener('place_changed', () => {
+                fillInAddress(pickupAutocomplete, 'pickup');
+                calculateAndDisplayRoute();
+            });
+
+            // Afleveradres
+            const destinationInput = document.getElementById('destination-input');
+            destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput, {
+                types: ['address'],
+                componentRestrictions: { country: ['nl', 'be'] }
+            });
+            // Roep de routefunctie aan na het invullen van het adres
+            destinationAutocomplete.addListener('place_changed', () => {
+                fillInAddress(destinationAutocomplete, 'destination');
+                calculateAndDisplayRoute();
+            });
+        }
+
+        function fillInAddress(autocomplete, prefix) {
+            const place = autocomplete.getPlace();
+
+            if (!place.address_components || !place.geometry) return;
+
+            let street = '', number = '', city = '', postal = '', country = '';
+
+            const lat = place.geometry.location.lat();
+            const lng = place.geometry.location.lng();
+
+            // Sla de coördinaten op in de JS variabelen
+            if (prefix === 'pickup') {
+                pickupCoords = { lat: lat, lng: lng };
+            } else {
+                destinationCoords = { lat: lat, lng: lng };
+            }
+
+            for (const comp of place.address_components) {
+                const types = comp.types;
+                if (types.includes('route')) street = comp.long_name;
+                if (types.includes('street_number')) number = comp.long_name;
+                if (types.includes('locality') || types.includes('postal_town')) city = comp.long_name;
+                if (types.includes('postal_code')) postal = comp.long_name;
+                if (types.includes('country')) country = comp.long_name;
+            }
+
+            // Deel 1: Adrescomponenten in verborgen velden
+            document.getElementById(`${prefix}-street`).value = street + (number ? ' ' + number : '');
+            document.getElementById(`${prefix}-postal-code`).value = postal;
+            document.getElementById(`${prefix}-city`).value = city;
+            document.getElementById(`${prefix}-country`).value = country;
+
+            // Deel 2: Coördinaten in verborgen velden (NIEUW!)
+            document.getElementById(`${prefix}-latitude`).value = lat;
+            document.getElementById(`${prefix}-longitude`).value = lng;
+
+
+            // Deel 3: Weergave voor de gebruiker (ter controle)
+            document.getElementById(`${prefix}-street-display`).innerText = street + (number ? ' ' + number : '');
+            document.getElementById(`${prefix}-postal-display`).innerText = postal;
+            document.getElementById(`${prefix}-city-display`).innerText = city;
+            document.getElementById(`${prefix}-country-display`).innerText = country;
+            document.getElementById(`${prefix}-lat-display`).innerText = lat.toFixed(6);
+            document.getElementById(`${prefix}-lng-display`).innerText = lng.toFixed(6);
+        }
+
+        /**
+         * Berekent en tekent de route op de kaart als beide adressen bekend zijn.
+         */
+        function calculateAndDisplayRoute() {
+            const routeInfoDiv = document.getElementById('route-info');
+
+            if (!pickupCoords || !destinationCoords) {
+                routeInfoDiv.style.display = 'none'; // Verberg info als niet compleet
+                return;
+            }
+
+            // Toon status tijdens berekening
+            routeInfoDiv.innerText = 'Route aan het berekenen...';
+            routeInfoDiv.style.display = 'block';
+
+            const request = {
+                origin: pickupCoords,
+                destination: destinationCoords,
+                travelMode: google.maps.TravelMode.DRIVING,
+            };
+
+            directionsService.route(request, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(result);
+
+                    const leg = result.routes[0].legs[0];
+                    const distance = leg.distance.text;
+                    const duration = leg.duration.text;
+
+                    // 1. Toon informatie op de pagina (voor gebruiker)
+                    document.getElementById('route-info').innerHTML = `
+                        <strong>Afstand:</strong> ${distance}`;
+
+                    // 2. VUL DE VERBORGEN VELDEN (voor C# model)
+                    document.getElementById('input-afstand').value = TransportDistance;
+
+                } else {
+                    console.error("Fout bij ophalen route:", status);
+                    directionsRenderer.setDirections({ routes: [] });
+
+                    // Toon foutmelding aan de gebruiker
+                    routeInfoDiv.classList.remove('alert-info');
+                    routeInfoDiv.classList.add('alert-danger');
+                    routeInfoDiv.innerText = `Fout bij berekenen van de route (${status}). Controleer de adressen.`;
+                    routeInfoDiv.style.display = 'block';
+                }
+            });
+        }
+    </script>
+}
+
+

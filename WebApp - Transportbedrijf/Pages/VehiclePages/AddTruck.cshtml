@@ -1,0 +1,45 @@
+﻿@page
+@model WebApp___Transportbedrijf.Pages.Vehicle.AddTruckModel
+@{
+}
+
+<h1>Vrachtwagen toevoegen</h1>
+
+
+<form method="post" asp-page-handler="AddTruck">
+
+    <div asp-validation-summary="All" class="text-black"></div>
+
+    <div class="form-group">
+        <label asp-for="Truck.VehicleBrandModel" class="control-label"></label>
+        <input asp-for="Truck.VehicleBrandModel" class="form-control" />
+        <span asp-validation-for="Truck.VehicleBrandModel" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Truck.VehicleType" class="text-black"></label>
+
+        <select id="vehicleTypeDropdown" asp-for="Truck.VehicleType" class="form-control">
+            <option value="0">Truck</option>
+        </select>
+
+        <span asp-validation-for="Truck.VehicleType" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Truck.LicencePlate" class="control-label"></label>
+        <input asp-for="Truck.LicencePlate" class="form-control" />
+        <span asp-validation-for="Truck.LicencePlate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Truck.MaxLoad" class="control-label"></label>
+        <input asp-for="Truck.MaxLoad" class="form-control" />
+        <span asp-validation-for="Truck.MaxLoad" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Toevoegen</button>
+    <a asp-page="/Vehicles/Index" class="btn btn-secondary">Annuleren</a>
+
+
+</form>
